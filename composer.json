@@ -1,0 +1,18 @@
+{
+    "name": "imyangjin/object-storage-upload",
+    "description": "Object storage uploads are supported with Laravel；",
+    "type": "library",
+    "license": "Apache",
+    "autoload": {
+        "psr-4": {
+            "Imyangjin\\ObjectStorageUpload\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "yangjin",
+            "email": "imyangjin@vip.qq.com"
+        }
+    ],
+    "require": {}
+}
