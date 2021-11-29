@@ -1,6 +1,6 @@
 {
     "name": "imyangjin/object-storage-upload",
-    "description": "Object storage uploads are supported with Laravel；",
+    "description": "Object storage uploads are supported with Laravel.",
     "type": "library",
     "license": "Apache",
     "autoload": {
