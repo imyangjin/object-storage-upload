@@ -52,7 +52,8 @@ class UploadService extends WebBaseService
     }
 
     /**
-     *
+     * Upload File
+     * 
      * @param $params
      *
      * @return string

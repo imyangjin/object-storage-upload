@@ -6,29 +6,25 @@ use imyangjin\objectStorageUpload\services\exports\ExportCsv;
 use imyangjin\objectStorageUpload\services\exports\ExportExcel;
 use imyangjin\objectStorageUpload\services\exports\ExportInterface;
 
-/*
-
-配置格式， 不配置使用默认值
-export:
-  default_driver: my
-  csv:
-    use_cache: false
-    max_cache_row: 100
-  excel:
-    font: '宋体'
-    ext: '.xlsx'
-    type: Excel2007
-  my: # 自定义导出配置， 下面的配置会传给 class 的构造函数
-    class: imyangjin\objectStorageUpload\services\exports\ExportCsv # 自定义导出类
-    use_cache: true
-    max_cache_row: 100
-
-
- */
-
 /**
  *  导出文件代理类
  * Class DownloadService
+ * 
+ * 配置格式， 不配置使用默认值
+ * export:
+ *  default_driver: my
+ * csv:
+ *   use_cache: false
+ *   max_cache_row: 100
+ * excel:
+ *   font: '宋体'
+ *   ext: '.xlsx'
+ *   type: Excel2007
+ * my: # 自定义导出配置， 下面的配置会传给 class 的构造函数
+ *   class: imyangjin\objectStorageUpload\services\exports\ExportCsv # 自定义导出类
+ *   use_cache: true
+ *   max_cache_row: 100
+ * 
  * @package imyangjin\objectStorageUpload\services
  *
  * @method ExportInterface putRow(array $row)
@@ -49,7 +45,7 @@ class ExportProxyService
     ];
 
     /**
-     * @auther yaming.feng@vhall.com
+     * @auther imyangjin@vip.qq.com
      * @date 2021/5/14
      *
      * @param string|null $driverType
@@ -90,7 +86,8 @@ class ExportProxyService
 
     /**
      * 设置导出初始化信息
-     * @auther yaming.feng@vhall.com
+     * 
+     * @auther imyangjin@vip.qq.com
      * @date 2021/5/18
      *
      * @param string        $filePath 导出文件路径， 不用加文件扩展名， 文件扩展名会根据使用的导出方式，自动添加
