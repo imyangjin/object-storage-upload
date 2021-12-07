@@ -81,7 +81,7 @@ class UploadService extends WebBaseService
 
     /**
      * 上传 base64 格式图片
-     * @auther yaming.feng@vhall.com
+     * @auther imyangjin@vip.qq.com
      * @date 2021/3/24
      *
      * @param string $base64Content 图片的 base64 内容
@@ -120,7 +120,7 @@ class UploadService extends WebBaseService
 
     /**
      * 图片上传
-     * @auther yaming.feng@vhall.com
+     * @auther imyangjin@vip.qq.com
      * @date 2021/6/4
      *
      * @param string $file       可以是 $_FILES 的属性名， 也可以是路径， 也可以是 base64 内容
@@ -168,21 +168,35 @@ class UploadService extends WebBaseService
                 throw new ValidationException(ResponseCode::TYPE_INVALID_FILE);
             }
 
-            $path     = "upload/$module/";
-            $filePath = storage_path('public/'. $path);
-            if (!is_dir($filePath) && !mkdir($filePath, 0777, true)) {
-                throw new \RuntimeException(sprintf('Directory "%s" was not created', $filePath));
-            }
-            $filePath .= $fileName;
-
-            file_put_contents($filePath, json_encode($content));
-
+            $path        = "upload/$module/";
             $ossFilePath = "$path$fileName";
-            return $this->localFileUpload($filePath, $ossFilePath);
+            return $this->writeInTempFileUpload($content, $ossFilePath);
         } catch (Exception $e) {
             vss_logger()->error('uploadNoteLocalError', [$e->getMessage()]);
             return false;
         }
+    }
+
+    /**
+     * 数据通过临时文件上传
+     *
+     * @notice 临时文件句柄如果return，则会关闭；所以必须在函数内完成上传
+     *
+     * @param $content
+     * @param $ossFilePath
+     *
+     * @return string
+     * @throws ValidationException
+     * @throws BindingResolutionException
+     * @author  jin.yang@vhall.com
+     * @date    2021-10-28
+     */
+    public function writeInTempFileUpload($content, $ossFilePath)
+    {
+        $tmpFile = tmpfile();
+        fwrite($tmpFile, $content);
+        $file = stream_get_meta_data($tmpFile)['uri'];
+        return $this->localFileUpload($file, $ossFilePath);
     }
 
     /**
@@ -240,7 +254,7 @@ class UploadService extends WebBaseService
     }
 
     /**
-     * @auther yaming.feng@vhall.com
+     * @auther imyangjin@vip.qq.com
      * @date 2021/1/13
      *
      * @param string|UploadFile $localFilePath  本地文件路径
@@ -317,7 +331,7 @@ class UploadService extends WebBaseService
     }
 
     /**
-     * @auther yaming.feng@vhall.com
+     * @auther imyangjin@vip.qq.com
      * @date 2021/2/8
      *
      * @param string $type 上传类型
