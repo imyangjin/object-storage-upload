@@ -30,12 +30,15 @@ class UploadService extends WebBaseService
 
     public const CUSTOM_TYPE = 5;
 
+    public const OBS_TYPE = 6; // obs
+
     public const UPLOAD_TYPE_MAP = [
         'oss'    => self::OSS_TYPE,
         'cos'    => self::COS_TYPE,
         'blob'   => self::BLOB_TYPE,
         'local'  => self::LOCAL_TYPE,
         'custom' => self::CUSTOM_TYPE,
+        'obs'    => self::OBS_TYPE,
     ];
 
     private $prefix = 'vss';
@@ -102,20 +105,11 @@ class UploadService extends WebBaseService
             $urlPath  = 'upload' . DIRECTORY_SEPARATOR . date('Ym') . DIRECTORY_SEPARATOR . $hashName;
         }
 
-        $filePath = storage_path('/public') . DIRECTORY_SEPARATOR . $urlPath;
-        if (UploadFile::mkdirs(dirname($filePath)) === false) {
-            throw new ValidationException(ResponseCode::TYPE_INVALID_IMAGE);
-        }
-
         if (strpos($base64Content, ",") !== false) {
             $base64Content = explode(',', $base64Content)[1];
         }
 
-        if (!file_put_contents($filePath, base64_decode($base64Content))) {
-            throw new ValidationException(ResponseCode::BUSINESS_UPLOAD_FAILED);
-        }
-
-        return $this->localFileUpload($filePath, $urlPath);
+        return $this->writeInTempFileUpload($base64_decode($base64Content), $urlPath);
     }
 
     /**
